@@ -1,17 +1,10 @@
-function saveTextAsFile(text, fileName, fileType) {
-  let textFileAsBlob = new Blob([text], { type: fileType })
-  let downloadLink = document.createElement('a')
-  downloadLink.download = fileName
-  downloadLink.innerHTML = 'Download File'
+function saveTextAsFile(text, fileName, type = "text/plain") {
 
-  if (window.URL != null) {
-    downloadLink.href = window.URL.createObjectURL(textFileAsBlob)
-  } else {
-    downloadLink.href = window.URL.createObjectURL(textFileAsBlob)
-    downloadLink.style.display = 'none'
-    document.body.appendChild(downloadLink)
-  }
-
-  downloadLink.click()
-
+  Object.assign(document.createElement('a'), {
+    download: fileName,
+    href: URL.createObjectURL(new Blob([text], { type }))
+  }).click()
+  
 }
+
+saveTextAsFile('Hello World!', 'hello.txt', 'text/plain')
